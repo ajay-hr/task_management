@@ -1,6 +1,6 @@
 # Task Management API
 
-Spring Boot REST API for task and project management with JWT authentication, collaborative project membership, assignment tracking, due dates, and scheduled deadline reminder emails.
+Spring Boot REST API for task and project management with JWT authentication, collaborative project membership, assignment tracking, due dates, and scheduled deadline reminders.
 
 ## Tech Stack
 
@@ -16,11 +16,9 @@ Spring Boot REST API for task and project management with JWT authentication, co
 - User registration and login with BCrypt password hashing.
 - Stateless JWT authentication with refresh-token endpoint.
 - Project CRUD with owner and member-based access control.
-- Task CRUD under projects with status workflow: `TODO`, `IN_PROGRESS`, `DONE`.
+- Can add tasks with status workflow: `TODO`, `IN_PROGRESS`, `DONE`.
 - Task assignment to project owner or members only.
 - Scheduled reminder job for assigned tasks due in the next 24 hours.
-- Admin password reset endpoint protected by `ROLE_ADMIN`.
-- Optional admin bootstrap using `ADMIN_EMAIL` and `ADMIN_PASSWORD`.
 
 ## Run Locally
 
@@ -44,7 +42,7 @@ Swagger UI is available at:
 http://localhost:7001/swagger-ui.html
 ```
 
-If you override the port, use that port instead, for example `http://localhost:7001/swagger-ui.html`.
+If you override the port, use that port instead, for example `http://localhost:7002/swagger-ui.html`.
 
 Registration validation:
 
@@ -91,7 +89,3 @@ Send authenticated requests with:
 ```text
 Authorization: Bearer <accessToken>
 ```
-
-## Resume Bullet
-
-Built a Java Spring Boot task management REST API with JWT authentication, PostgreSQL persistence, role-based admin controls, project collaboration, task assignment workflows, and scheduled email reminders for upcoming deadlines.
