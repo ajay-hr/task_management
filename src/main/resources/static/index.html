@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header>
+    <h1>Task Management System</h1>
+    <div id="sessionInfo">
+        <span id="sessionStatus">Not signed in</span>
+        <button id="logoutBtn" class="danger hidden" type="button">Logout</button>
+    </div>
+</header>
+
+<main>
+    <!-- 1. AUTH -->
+    <section class="panel auth-panel">
+        <div class="tabs">
+            <button class="active" data-auth-tab="login">Login</button>
+            <button data-auth-tab="register">Register</button>
+        </div>
+        
+        <form id="loginForm" class="grid-form">
+            <label>Email
+                <span class="password-field">
+                    <input name="email" type="email" value="admin@task.com" required>
+                </span>
+            </label>
+            <label>Password
+                <span class="password-field">
+                    <input name="password" type="password" value="Password@123" required>
+                    <button class="toggle-password" type="button" aria-label="Show password">Show</button>
+                </span>
+            </label>
+            <button type="submit">Login</button>
+        </form>
+
+        <form id="registerForm" class="grid-form hidden">
+            <label>Name<input name="name" required placeholder="Full Name"></label>
+            <label>Email<input name="email" type="email" required placeholder="user@example.com"></label>
+            <label>Password
+                <span class="password-field">
+                    <input name="password" type="password" value="Password@123" required>
+                    <button class="toggle-password" type="button" aria-label="Show password">Show</button>
+                </span>
+            </label>
+            <button type="submit">Register</button>
+        </form>
+
+        <div id="manualToken" class="manual-token">
+            <hr>
+            <p>Access Token (Manual Override)</p>
+            <div class="inline-actions">
+                <input id="tokenInput" type="text" placeholder="Paste JWT here">
+                <button id="saveTokenBtn" class="secondary" type="button">Save</button>
+                <button id="refreshBtn" class="secondary" type="button">Refresh</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 2. MY ACCOUNT -->
+    <section class="panel profile-panel hidden">
+        <div class="section-title">
+            <h2>My Account</h2>
+        </div>
+        <form id="selfResetPasswordForm" class="grid-form">
+            <label>New Password
+                <span class="password-field">
+                    <input name="newPassword" type="password" value="Password@123" required>
+                    <button class="toggle-password" type="button" aria-label="Show password">Show</button>
+                </span>
+            </label>
+            <button type="submit">Change My Password</button>
+        </form>
+    </section>
+
+    <!-- 3. PROJECTS -->
+    <section class="panel project-panel hidden">
+        <div class="section-title">
+            <h2>Projects</h2>
+            <button id="loadProjectsBtn" class="secondary" type="button">Reload</button>
+        </div>
+
+        <form id="projectForm" class="grid-form">
+            <input type="hidden" name="id">
+            <label>Name<input name="name" required placeholder="Project Name"></label>
+            <label>Description<input name="description" placeholder="Short description"></label>
+            <label class="full-width">Member User Codes / Emails<input name="memberUserCodes" placeholder="ABCD2345, user@email.com"></label>
+            <div class="inline-actions full-width">
+                <button type="submit">Save Project</button>
+                <button id="clearProjectBtn" class="secondary" type="button">New</button>
+            </div>
+        </form>
+
+        <div id="projectsList" class="list">
+            <!-- Dynamic Content -->
+        </div>
+    </section>
+
+    <!-- 4. TASKS -->
+    <section class="panel tasks-panel hidden">
+        <div class="section-title">
+            <div>
+                <h2>Tasks</h2>
+                <p id="selectedProjectLabel">Select a project</p>
+            </div>
+            <button id="loadTasksBtn" class="secondary" type="button">Reload</button>
+        </div>
+
+        <form id="taskForm" class="grid-form">
+            <input type="hidden" name="id">
+            <label>Title<input name="title" required placeholder="Task Title"></label>
+            <label>Status
+                <select name="status">
+                    <option value="TODO">TODO</option>
+                    <option value="IN_PROGRESS">IN_PROGRESS</option>
+                    <option value="DONE">DONE</option>
+                </select>
+            </label>
+            <label>Due Date<input name="dueDate" type="datetime-local"></label>
+            <label>Assignee Code<input name="assignedToUserCode" placeholder="User Code"></label>
+            <label class="full-width">Description<input name="description" placeholder="Task details"></label>
+            <div class="inline-actions full-width">
+                <button type="submit">Save Task</button>
+                <button id="clearTaskBtn" class="secondary" type="button">New</button>
+            </div>
+        </form>
+
+        <div id="tasksList" class="list">
+            <!-- Dynamic Content -->
+        </div>
+    </section>
+
+    <!-- 5. ADMIN -->
+    <section class="panel admin-panel hidden">
+        <div class="section-title">
+            <h2>Admin Tools</h2>
+        </div>
+        <form id="resetPasswordForm" class="grid-form">
+            <label>User Email<input name="userId" type="email" required placeholder="user@email.com"></label>
+            <label>New Password
+                <span class="password-field">
+                    <input name="newPassword" type="password" value="Password@123" required>
+                    <button class="toggle-password" type="button" aria-label="Show password">Show</button>
+                </span>
+            </label>
+            <button type="submit">Reset User Password</button>
+        </form>
+    </section>
+
+    <!-- 6. LOG -->
+    <section class="panel log-panel">
+        <div class="section-title">
+            <h2>API Response</h2>
+            <button id="clearLogBtn" class="secondary" type="button">Clear</button>
+        </div>
+        <pre id="responseLog">Ready.</pre>
+    </section>
+</main>
+
+<aside id="projectSidebar" class="sidebar hidden">
+    <div class="sidebar-header">
+        <h2>Details</h2>
+        <button id="closeSidebarBtn">&times;</button>
+    </div>
+    <div id="projectSidebarContent" class="sidebar-body">
+        <!-- Content -->
+    </div>
+    <div class="sidebar-footer">
+        <button id="sidebarEditProjectBtn" class="secondary">Edit Project</button>
+        <button id="sidebarDeleteProjectBtn" class="danger">Delete Project</button>
+    </div>
+</aside>
+
+<div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+<script src="app.js"></script>
+</body>
+</html>
